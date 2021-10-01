@@ -53,6 +53,36 @@ namespace RainbowSchool
                 }
             }
 
+            // Display one teacher 
+            private void DisplayATeacher(Teacher _teacher)
+            {
+                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine($"- ID      : {_teacher.ID}");
+                Console.WriteLine($"- Name    : {_teacher.Name}");
+                Console.WriteLine($"- Class   : {_teacher.Class}");
+                Console.WriteLine($"- Section : {_teacher.Section}");
+                Console.WriteLine("-------------------------------------------");
+            }
+
+            // Display all teachers
+            public void DisplayTeachers()
+            {
+                if (this.Teachers != null && this.Teachers.Count() > 0)
+                {
+                    foreach (var teacher in this.Teachers)
+                    {
+                        DisplayATeacher(teacher);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("-------------------------------------------");
+                    Console.WriteLine("-    Sorry , there are no data exist !    -");
+                    Console.WriteLine("-------------------------------------------");
+                }
+            }
+
+
             public List<Teacher> Teachers { get; set; }
         }
 
@@ -61,7 +91,7 @@ namespace RainbowSchool
             // The code provided will print ‘Hello World’ to the console.
             // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
             var DB = new DataWarehouse();
-            Console.WriteLine("Hello World!");
+            DB.DisplayTeachers();
             Console.ReadKey();
 
             // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 

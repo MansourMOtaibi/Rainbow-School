@@ -162,6 +162,11 @@ namespace RainbowSchool
                 }
             }
 
+            private bool IsTeacherExist(int _id)
+            {
+                return Teachers.FirstOrDefault(m => m.ID == _id) != null;
+            }
+
             #region Rainbow School UI
             public void Header()
             {
@@ -193,7 +198,7 @@ namespace RainbowSchool
                         MainMenu();
                         break;
                     case ConsoleKey.U:
-                        Console.WriteLine("-  Update !! .. You Choose a wrong action! -");
+                        UpdateTeacherUI();
                         Thread.Sleep(200);
                         MainMenu();
                         break;
@@ -246,6 +251,73 @@ namespace RainbowSchool
                 Thread.Sleep(200);
                 Console.WriteLine("-------------------------------------------");
                 Console.WriteLine($"- Teacher With ID {teacherId} Added Succefully   ");
+            }
+
+            public void UpdateTeacherUI()
+            {
+                Console.Clear();
+                Header();
+                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("-            Updating a Teacher           -");
+                Console.WriteLine("-------------------------------------------");
+                Thread.Sleep(200);
+                string _id, _name, _class, _section;
+                int _idNumber = 0;
+                int _classNumber;
+                bool IsNumber = false;
+                bool IsExist = false;
+
+                while (!IsExist)
+                {
+                    Console.Write("- Which Teacher you will Update ? (Teacher's ID) : ");
+                    _id = Console.ReadLine();
+                    IsNumber = Int32.TryParse(_id, out _idNumber);
+
+                    while (!IsNumber)
+                    {
+                        Console.WriteLine("* The inserted value is not a NUNMBER");
+                        Console.WriteLine("* Please insert a valid NUMBER !");
+                        Console.Write("- Insert Teacher's ID   : ");
+                        _id = Console.ReadLine();
+                        IsNumber = Int32.TryParse(_id, out _idNumber);
+                    }
+
+                    IsExist = IsTeacherExist(_idNumber);
+                    if (!IsExist)
+                    {
+                        Console.WriteLine("* The inserted ID is not EXIST !!");
+                        Console.WriteLine("* Please insert a valid ID !");
+                        Thread.Sleep(200);
+                    }
+                    else
+                    {
+                        DisplayATeacher(this.Teachers.FirstOrDefault(m => m.ID == _idNumber));
+                    }
+                }
+
+                Console.Write("- Insert the new Name    : ");
+                _name = Console.ReadLine();
+
+                Console.Write("- Insert the new Class   : ");
+                _class = Console.ReadLine();
+                IsNumber = Int32.TryParse(_class, out _classNumber);
+
+                while (!IsNumber)
+                {
+                    Console.WriteLine("* The inserted value is not a NUNMBER");
+                    Console.WriteLine("* Please insert a valid NUMBER !");
+                    Console.Write("- Insert the new Class   : ");
+                    _class = Console.ReadLine();
+                    IsNumber = Int32.TryParse(_class, out _classNumber);
+                }
+
+                Console.Write("- Insert the new Section : ");
+                _section = Console.ReadLine();
+
+                UpdateTeacher(_idNumber, new Teacher(_name, _classNumber, _section));
+                Thread.Sleep(200);
+                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine($"- Teacher With ID {_idNumber} Updated Succefully   ");
             }
 
             #endregion

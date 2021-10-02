@@ -53,7 +53,7 @@ namespace RainbowSchool
                 }
             }
 
-            // Display one teacher 
+            // Display a teacher's data
             private void DisplayATeacher(Teacher _teacher)
             {
                 Console.WriteLine("-------------------------------------------");
@@ -64,7 +64,7 @@ namespace RainbowSchool
                 Console.WriteLine("-------------------------------------------");
             }
 
-            // Display all teachers
+            // Display all teachers' data
             public void DisplayTeachers()
             {
                 if (this.Teachers != null && this.Teachers.Count() > 0)
@@ -82,6 +82,14 @@ namespace RainbowSchool
                 }
             }
 
+            public void AddTeacher(Teacher _teacher)
+            {
+                using (StreamWriter sw = File.AppendText(TextFilePath))
+                {
+                    sw.WriteLine($"{_teacher.ID},{_teacher.Name},{_teacher.Class},{_teacher.Section}");
+                    this.Teachers.Add(_teacher);
+                }
+            }
 
             public List<Teacher> Teachers { get; set; }
         }
@@ -93,6 +101,13 @@ namespace RainbowSchool
             var DB = new DataWarehouse();
             DB.DisplayTeachers();
             Console.ReadKey();
+            DB.AddTeacher(new Teacher(6,"Ahmed Mohammed",494,"Math"));
+            DB.DisplayTeachers();
+            Console.ReadKey();
+            DB.AddTeacher(new Teacher(6, "Faisal Mohammed", 101, "Math"));
+            DB.DisplayTeachers();
+            Console.ReadKey();
+
 
             // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
         }

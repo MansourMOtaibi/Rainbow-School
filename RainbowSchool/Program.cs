@@ -380,20 +380,6 @@ namespace RainbowSchool
             var DB = new DataWarehouse();
             DB.Header();
             DB.MainMenu();
-            //DB.DisplayTeachers();
-            Console.ReadKey();
-            //DB.AddTeacher(new Teacher(6, "Faisal Mohammed", 101, "Math"));
-            //DB.AddTeacher(new Teacher(8, "Saad Mohammed", 101, "Math"));
-            //DB.AddTeacher(new Teacher(6, "Ahmed Mohammed", 304, "Math"));
-            //DB.AddTeacher(new Teacher(6, "Somone Mohammed", 505, "Math"));
-            //DB.DisplayTeachers();
-            //Console.ReadKey();
-            //DB.DeleteTeacher(8);
-            //DB.DisplayTeachers();
-            //Console.ReadKey();
-            //DB.UpdateTeacher(7,new Teacher(11, "Mansour", 511, "CS"));
-            //DB.DisplayTeachers();
-            //Console.ReadKey();
         }
     }
 }

@@ -12,9 +12,16 @@ namespace RainbowSchool
     {
         class Teacher
         {
-            public Teacher(int _id , string _name , int _class, string _section)
+            public Teacher(int _id, string _name, int _class, string _section)
             {
                 this.ID = _id;
+                this.Name = _name;
+                this.Class = _class;
+                this.Section = _section;
+            }
+
+            public Teacher(string _name, int _class, string _section)
+            {
                 this.Name = _name;
                 this.Class = _class;
                 this.Section = _section;
@@ -80,12 +87,14 @@ namespace RainbowSchool
             }
 
             // Add a new teacher
-            public void AddTeacher(Teacher _teacher)
+            public int AddTeacher(Teacher _teacher)
             {
+                _teacher.ID = Teachers != null && Teachers.Count() > 0 ? Teachers.Count() : 0;
                 using (StreamWriter sw = File.AppendText(TextFilePath))
                 {
                     sw.WriteLine(_teacher.ToOneLine());
                     this.Teachers.Add(_teacher);
+                    return _teacher.ID;
                 }
             }
 
@@ -115,7 +124,6 @@ namespace RainbowSchool
                 {
                     if(teacher.ID == _id)
                     {
-                        teacher.ID = _teacher.ID;
                         teacher.Name = _teacher.Name;
                         teacher.Class = _teacher.Class;
                         teacher.Section = _teacher.Section;
@@ -211,22 +219,9 @@ namespace RainbowSchool
                 Console.WriteLine("-          Adding a New Teacher           -");
                 Console.WriteLine("-------------------------------------------");
                 Thread.Sleep(200);
-                string _id, _name, _class, _section;
-                int _idNumber, _classNumber;
+                string _name, _class, _section;
+                int _classNumber;
                 bool IsNumber = false;
-
-                Console.Write("- Insert Teacher's ID      : ");
-                _id = Console.ReadLine();
-                IsNumber = Int32.TryParse(_id, out _idNumber);
-
-                while (!IsNumber)
-                {
-                    Console.WriteLine("* The inserted value is not a NUNMBER");
-                    Console.WriteLine("* Please insert a valid NUMBER !");
-                    Console.Write("- Insert Teacher's ID      : ");
-                    _id = Console.ReadLine();
-                    IsNumber = Int32.TryParse(_id, out _idNumber);
-                }
 
                 Console.Write("- Insert Teacher's Name    : ");
                 _name = Console.ReadLine();
@@ -247,11 +242,12 @@ namespace RainbowSchool
                 Console.Write("- Insert Teacher's Section : ");
                 _section = Console.ReadLine();
 
-                AddTeacher(new Teacher(_idNumber, _name, _classNumber, _section));
+                int teacherId = AddTeacher(new Teacher(_name, _classNumber, _section));
                 Thread.Sleep(200);
                 Console.WriteLine("-------------------------------------------");
-                Console.WriteLine($"- Teacher With ID {_idNumber} Added Succefully   ");
+                Console.WriteLine($"- Teacher With ID {teacherId} Added Succefully   ");
             }
+
             #endregion
 
             public List<Teacher> Teachers { get; set; }

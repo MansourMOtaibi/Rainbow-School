@@ -180,7 +180,7 @@ namespace RainbowSchool
                         MainMenu();
                         break;
                     case ConsoleKey.A:
-                        Console.WriteLine("-  Add !! .. You Choose a wrong action! -");
+                        AddTeacherUI();
                         Thread.Sleep(200);
                         MainMenu();
                         break;
@@ -201,6 +201,56 @@ namespace RainbowSchool
                         break;
                 }
 
+            }
+
+            public void AddTeacherUI()
+            {
+                Console.Clear();
+                Header();
+                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("-          Adding a New Teacher           -");
+                Console.WriteLine("-------------------------------------------");
+                Thread.Sleep(200);
+                string _id, _name, _class, _section;
+                int _idNumber, _classNumber;
+                bool IsNumber = false;
+
+                Console.Write("- Insert Teacher's ID      : ");
+                _id = Console.ReadLine();
+                IsNumber = Int32.TryParse(_id, out _idNumber);
+
+                while (!IsNumber)
+                {
+                    Console.WriteLine("* The inserted value is not a NUNMBER");
+                    Console.WriteLine("* Please insert a valid NUMBER !");
+                    Console.Write("- Insert Teacher's ID      : ");
+                    _id = Console.ReadLine();
+                    IsNumber = Int32.TryParse(_id, out _idNumber);
+                }
+
+                Console.Write("- Insert Teacher's Name    : ");
+                _name = Console.ReadLine();
+                
+                Console.Write("- Insert Teacher's Class   : ");
+                _class = Console.ReadLine();
+                IsNumber = Int32.TryParse(_class, out _classNumber);
+
+                while (!IsNumber)
+                {
+                    Console.WriteLine("* The inserted value is not a NUNMBER");
+                    Console.WriteLine("* Please insert a valid NUMBER !");
+                    Console.Write("- Insert Teacher's Class   : ");
+                    _class = Console.ReadLine();
+                    IsNumber = Int32.TryParse(_class, out _classNumber);
+                }
+
+                Console.Write("- Insert Teacher's Section : ");
+                _section = Console.ReadLine();
+
+                AddTeacher(new Teacher(_idNumber, _name, _classNumber, _section));
+                Thread.Sleep(200);
+                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine($"- Teacher With ID {_idNumber} Added Succefully   ");
             }
             #endregion
 

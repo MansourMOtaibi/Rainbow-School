@@ -99,7 +99,7 @@ namespace RainbowSchool
             }
 
             // Delete a teacher
-            public void DeleteTeacher(int _id)
+            public bool DeleteTeacher(int _id)
             {
                 int i = 0;
                 foreach (var teacher in this.Teachers)
@@ -110,11 +110,12 @@ namespace RainbowSchool
                         linesList.RemoveAt(i);
                         File.WriteAllLines(TextFilePath , linesList.ToArray());
                         GetTeachersDataFromTXT();
-                        break;
+                        return true;
                     }
                     i++;
                 }
                 Console.WriteLine("*** There Are No Teacher With This ID !!");
+                return false;
             }
 
             // Updating Teacher By ID
@@ -203,7 +204,7 @@ namespace RainbowSchool
                         MainMenu();
                         break;
                     case ConsoleKey.D:
-                        Console.WriteLine("-  Delete !! .. You Choose a wrong action! -");
+                        DeleteTeacherUI();
                         Thread.Sleep(200);
                         MainMenu();
                         break;
@@ -320,6 +321,55 @@ namespace RainbowSchool
                 Console.WriteLine($"- Teacher With ID {_idNumber} Updated Succefully   ");
             }
 
+            public void DeleteTeacherUI()
+            {
+                Console.Clear();
+                Header();
+                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("-            Deleting a Teacher           -");
+                Console.WriteLine("-------------------------------------------");
+                Thread.Sleep(200);
+
+                string _id;
+                int _idNumber = 0;
+                bool IsNumber = false;
+                bool IsExist = false;
+
+                while (!IsExist)
+                {
+                    Console.Write("- Which Teacher you will delete ? (Teacher's ID) : ");
+                    _id = Console.ReadLine();
+                    IsNumber = Int32.TryParse(_id, out _idNumber);
+
+                    while (!IsNumber)
+                    {
+                        Console.WriteLine("* The inserted value is not a NUNMBER");
+                        Console.WriteLine("* Please insert a valid NUMBER !");
+                        Console.Write("- Insert Teacher's ID   : ");
+                        _id = Console.ReadLine();
+                        IsNumber = Int32.TryParse(_id, out _idNumber);
+                    }
+
+                    IsExist = IsTeacherExist(_idNumber);
+                    if (!IsExist)
+                    {
+                        Console.WriteLine("* The inserted ID is not EXIST !!");
+                        Console.WriteLine("* Please insert a valid ID !");
+                        Thread.Sleep(200);
+                    }
+                    else
+                    {
+                        DisplayATeacher(this.Teachers.FirstOrDefault(m => m.ID == _idNumber));
+                        if(DeleteTeacher(_idNumber))
+                            Console.WriteLine($"- Teacher With ID {_idNumber} Deleted Succefully   ");
+                        else
+                            Console.WriteLine($"- Teacher With ID {_idNumber} not deleted !   ");
+                        Thread.Sleep(200);
+                    }
+                }
+
+
+            }
             #endregion
 
             public List<Teacher> Teachers { get; set; }

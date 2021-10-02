@@ -31,7 +31,6 @@ namespace RainbowSchool
 
             public DataWarehouse()
             {
-                this.Teachers = new List<Teacher>();
 
                 // Check : Create file if not exist
                 if (!File.Exists(TextFilePath))
@@ -40,17 +39,7 @@ namespace RainbowSchool
                     txtFile.Close();
                 }
 
-                // read all lines from the file
-                string[] _lines = File.ReadAllLines(TextFilePath);
-
-                if(_lines != null && _lines.Length > 0)
-                {
-                    foreach (var line in _lines)
-                    {
-                        string[] columns = line.Split(',');
-                        this.Teachers.Add(new Teacher(Convert.ToInt32(columns[0]), columns[1], Convert.ToInt32(columns[2]), columns[3]));
-                    }
-                }
+                GetTeachersDataFromTXT();
             }
 
             // Display a teacher's data
@@ -82,12 +71,49 @@ namespace RainbowSchool
                 }
             }
 
+            // Add a new teacher
             public void AddTeacher(Teacher _teacher)
             {
                 using (StreamWriter sw = File.AppendText(TextFilePath))
                 {
                     sw.WriteLine($"{_teacher.ID},{_teacher.Name},{_teacher.Class},{_teacher.Section}");
                     this.Teachers.Add(_teacher);
+                }
+            }
+
+            // Delete a teacher
+            public void DeleteTeacher(int _id)
+            {
+                int i = 0;
+                foreach (var teacher in this.Teachers)
+                {
+                    if(_id == teacher.ID)
+                    {
+                        List<string> linesList = File.ReadAllLines(TextFilePath).ToList();
+                        linesList.RemoveAt(i);
+                        File.WriteAllLines(TextFilePath , linesList.ToArray());
+                        GetTeachersDataFromTXT();
+                        break;
+                    }
+                    i++;
+                }
+                Console.WriteLine("*** There Are No Teacher With This ID !!");
+            }
+
+            // Append all teachers' Data 
+            private void GetTeachersDataFromTXT()
+            {
+                this.Teachers = new List<Teacher>();
+                // read all lines from the file
+                string[] _lines = File.ReadAllLines(TextFilePath);
+
+                if (_lines != null && _lines.Length > 0)
+                {
+                    foreach (var line in _lines)
+                    {
+                        string[] columns = line.Split(',');
+                        this.Teachers.Add(new Teacher(Convert.ToInt32(columns[0]), columns[1], Convert.ToInt32(columns[2]), columns[3]));
+                    }
                 }
             }
 
@@ -101,10 +127,13 @@ namespace RainbowSchool
             var DB = new DataWarehouse();
             DB.DisplayTeachers();
             Console.ReadKey();
-            DB.AddTeacher(new Teacher(6,"Ahmed Mohammed",494,"Math"));
+            DB.AddTeacher(new Teacher(6, "Faisal Mohammed", 101, "Math"));
+            DB.AddTeacher(new Teacher(8, "Saad Mohammed", 101, "Math"));
+            DB.AddTeacher(new Teacher(6, "Ahmed Mohammed", 304, "Math"));
+            DB.AddTeacher(new Teacher(6, "Somone Mohammed", 505, "Math"));
             DB.DisplayTeachers();
             Console.ReadKey();
-            DB.AddTeacher(new Teacher(6, "Faisal Mohammed", 101, "Math"));
+            DB.DeleteTeacher(8);
             DB.DisplayTeachers();
             Console.ReadKey();
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RainbowSchool
@@ -61,6 +62,8 @@ namespace RainbowSchool
             // Display all teachers' data
             public void DisplayTeachers()
             {
+                Console.Clear();
+                Header();
                 if (this.Teachers != null && this.Teachers.Count() > 0)
                 {
                     foreach (var teacher in this.Teachers)
@@ -151,15 +154,65 @@ namespace RainbowSchool
                 }
             }
 
+            #region Rainbow School UI
+            public void Header()
+            {
+                Console.WriteLine("===========================================");
+                Console.WriteLine("|          *  Rainbow School   *          |");
+                Console.WriteLine("|          Teachers' Data System          |");
+                Console.WriteLine("|          By : Mansour Alotaibi          |");
+                Console.WriteLine("===========================================");
+                Thread.Sleep(200);
+            }
+
+            public void MainMenu()
+            {
+                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("-   Please Choose one of this Actions :   -");
+                Console.WriteLine("-  [S]Show  [A]Add  [U]Update  [D]Delete  -");
+                Console.WriteLine("-------------------------------------------");
+                ConsoleKeyInfo choosedAction = Console.ReadKey();
+                switch (choosedAction.Key)
+                {
+                    case ConsoleKey.S:
+                        this.DisplayTeachers();
+                        Thread.Sleep(200);
+                        MainMenu();
+                        break;
+                    case ConsoleKey.A:
+                        Console.WriteLine("-  Add !! .. You Choose a wrong action! -");
+                        Thread.Sleep(200);
+                        MainMenu();
+                        break;
+                    case ConsoleKey.U:
+                        Console.WriteLine("-  Update !! .. You Choose a wrong action! -");
+                        Thread.Sleep(200);
+                        MainMenu();
+                        break;
+                    case ConsoleKey.D:
+                        Console.WriteLine("-  Delete !! .. You Choose a wrong action! -");
+                        Thread.Sleep(200);
+                        MainMenu();
+                        break;
+                    default:
+                        Console.WriteLine(" <= Sorry!! .. You Choose a wrong action!-");
+                        Thread.Sleep(200);
+                        MainMenu();
+                        break;
+                }
+
+            }
+            #endregion
+
             public List<Teacher> Teachers { get; set; }
         }
 
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
             var DB = new DataWarehouse();
-            DB.DisplayTeachers();
+            DB.Header();
+            DB.MainMenu();
+            //DB.DisplayTeachers();
             Console.ReadKey();
             //DB.AddTeacher(new Teacher(6, "Faisal Mohammed", 101, "Math"));
             //DB.AddTeacher(new Teacher(8, "Saad Mohammed", 101, "Math"));
@@ -167,14 +220,12 @@ namespace RainbowSchool
             //DB.AddTeacher(new Teacher(6, "Somone Mohammed", 505, "Math"));
             //DB.DisplayTeachers();
             //Console.ReadKey();
-            DB.DeleteTeacher(8);
-            DB.DisplayTeachers();
-            Console.ReadKey();
-            DB.UpdateTeacher(7,new Teacher(11, "Mansour", 511, "CS"));
-            DB.DisplayTeachers();
-            Console.ReadKey();
-
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+            //DB.DeleteTeacher(8);
+            //DB.DisplayTeachers();
+            //Console.ReadKey();
+            //DB.UpdateTeacher(7,new Teacher(11, "Mansour", 511, "CS"));
+            //DB.DisplayTeachers();
+            //Console.ReadKey();
         }
     }
 }
